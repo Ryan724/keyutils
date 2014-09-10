@@ -5,13 +5,13 @@
   <title>KeyUtils</title> 
   <script src = "keyutils.js"></script>
   <script>
-	k.up("Q",function(codeName){alert("haha"+codeName);});
-	k.up("SHift",function(codeName){alert("haha"+codeName);});
-	k.up("SHift+c",function(codeName){alert("haha"+codeName);});
+	k.keyUp("Q",function(codeName){console.log("1----"+codeName);});
+	k.keyUp("SHift",function(codeName){console.log("2----"+codeName);});
+	k.keyUp("SHift+c",function(codeName){console.log("3----"+codeName);});
   </script> 
 </head> 
 <body>
-<button hotkey="ctrl+j" id="btn"></button>
+	<button id="btn" data-hotkey="shift+k,click"></button>
 </body>
 </html>
 
