@@ -31,7 +31,7 @@ var key_names = {
 function fn_name(code) {
     return (code >= 112 && code <= 123)?'F' + (code - 111):false;
 };
-//the key of numeric keyboard
+//the key of num keyboard
 function num_name(code) {
     if(code >= 96 && code < 106) return 'Num' + (code - 96);
     switch(code) {
@@ -41,24 +41,29 @@ function num_name(code) {
         default: return false;
     }
 };
-var event_list=new Array();
+var event_list_up=new Array();
+var event_list_down=new Array();
+var event_list_press=new Array();
 document.onkeyup=function(e){
 	var c = e.keyCode;
 	var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
-		//judge existed value in event_list by key_name
-		if(event_list[key_name]!=undefined){
-			event_list[key_name](key_name);
+		//judge existed value in event_list_up by key_name
+		if(event_list_up[key_name]!=undefined){
+			event_list_up[key_name](key_name);
 		}
-}
+};
+document.onkeypress = function(e) {};
+document.onkeydown = function(e) {};
 
 var KeyUtils = window.KeyUtils = window.k ={
 	up:function(keyName,callback){
-		event_list[keyName.toUpperCase()]=callback;	
+		event_list_up[keyName.toUpperCase()]=callback;	
 	},
 	down:function(keyName,callback){
-		document.onkeyup=function(e){
-			//.......
-		}
+		event_list_down[keyName.toUpperCase()]=callback;
+	},	
+	press:function(keyName,callback){
+		event_list_press[keyName.toUpperCase()]=callback;
 	}
 };
 
