@@ -71,19 +71,19 @@
 		},
 		unKeyUp:function(keyName){
 			console.log(keyName);
-			event_map_up[keyName.toUpperCase()]={};	
+			event_map_up[keyName.toUpperCase()]=[];	
 		},
 		unKeyDown:function(keyName){
-			event_map_down[keyName.toUpperCase()]=null;
+			event_map_down[keyName.toUpperCase()]=[];
 		},
 		unKeyPress:function(keyName){
-			event_map_press[keyName.toUpperCase()]=null;
+			event_map_press[keyName.toUpperCase()]=[];
 		},
 		bind:function(keyName,callback){
 			event_map[keyName.toUpperCase()]=callback;	
 		},
 		unbind:function(keyName){
-			event_map[keyName.toUpperCase()]={};
+			event_map[keyName.toUpperCase()]=[];
 		}
 	};
 })(window);
