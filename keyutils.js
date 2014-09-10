@@ -41,16 +41,19 @@
 	        default: return false;
 	    }
 	};
-	//绑定事件
-	var event_list_up=new Array();
-	var event_list_down=new Array();
-	var event_list_press=new Array();
+	//bind事件
+	var event_map      =new Array();
+	//
+	var event_map_up   =new Array();
+	var event_map_down =new Array();
+	var event_map_press=new Array();
 	document.onkeyup=function(e){
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
-			//judge existed value in event_list_up by key_name
-			if(event_list_up[key_name]!=undefined){
-				event_list_up[key_name](key_name);
+			//judge existed value in event_map_up by key_name
+			if(event_map_up[key_name]!=undefined){
+				event_map_up[key_name](key_name);
+				k.unKeyUp(key_name);
 			}
 	};
 	document.onkeypress = function(e) {};
@@ -58,22 +61,29 @@
 
 	var KeyUtils = window.KeyUtils = window.k ={
 		keyUp:function(keyName,callback){
-			event_list_up[keyName.toUpperCase()]=callback;	
+			event_map_up[keyName.toUpperCase()]=callback;	
 		},
 		keyDown:function(keyName,callback){
-			event_list_down[keyName.toUpperCase()]=callback;
+			event_map_down[keyName.toUpperCase()]=callback;
 		},	
 		keyPress:function(keyName,callback){
-			event_list_press[keyName.toUpperCase()]=callback;
+			event_map_press[keyName.toUpperCase()]=callback;
 		},
 		unKeyUp:function(keyName){
-			event_list_up[keyName.toUpperCase()]=null;	
+			console.log(keyName);
+			event_map_up[keyName.toUpperCase()]={};	
 		},
 		unKeyDown:function(keyName){
-			event_list_down[keyName.toUpperCase()]=null;
+			event_map_down[keyName.toUpperCase()]=null;
 		},
 		unKeyPress:function(keyName){
-			event_list_press[keyName.toUpperCase()]=null;
+			event_map_press[keyName.toUpperCase()]=null;
+		},
+		bind:function(keyName,callback){
+			event_map[keyName.toUpperCase()]=callback;	
+		},
+		unbind:function(keyName){
+			event_map[keyName.toUpperCase()]={};
 		}
 	};
 })(window);
