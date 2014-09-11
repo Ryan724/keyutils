@@ -17,7 +17,7 @@
 	    var _KeyUtils = window.KeyUtils;
 	}
 	//快捷键组合按键
-	var assist_key=["shift","alt","ctrl","space"];
+	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 	//读取自定义属性data-hotkey
 	var  hotkeyArr = new Array;
 	//$('[data-hotkey]').each(function(i, element) {hotkeyArr.push(element);});
@@ -41,23 +41,38 @@
 	        default: return false;
 	    }
 	};
+	//判断数组当中是否存在某元素
+	var isInArray=function(str,arr){
+	  var i = arr.length; 
+	  while (i--) { 
+	    if (arr[i] === str) { 
+					 return true; 
+				} 
+			}
+			return false;
+		};
 	//bind事件
 	var event_map      =new Array();
-
 	var event_map_up   =new Array();
 	var event_map_down =new Array();
 	var event_map_press=new Array();
-	document.onkeyup=function(e){
+	document.onkeyup=function(e){};
+	document.onkeypress = function(e) {};
+	document.onkeydown = function(e) {
+		var keyArr = [];//存储按键
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
-			//judge existed value in event_map_up by key_name
-			if(event_map_up[key_name]!=undefined){
-				event_map_up[key_name](key_name);
-				k.unKeyUp(key_name);
-			}
+		//如果key_name是assist_key中的任一个时，加入到keyArr当中
+		if(isInArray(key_name.toUpperCase(),assist_key)){
+			keyArr.push(key_name);
+		}
+		if(!isInArray(key_name.toUpperCase(),keyArr))keyArr.push(key_name);
+		console.log(keyArr.join("+"));
+		//判断是否存在以key_name为key的value
+		if(event_map_up[key_name]!=undefined){
+			event_map_up[key_name](key_name);
+		}
 	};
-	document.onkeypress = function(e) {};
-	document.onkeydown = function(e) {};
 
 	var KeyUtils = window.KeyUtils = window.k ={
 		keyUp:function(keyName,callback){
@@ -71,19 +86,19 @@
 		},
 		unKeyUp:function(keyName){
 			console.log(keyName);
-			event_map_up[keyName.toUpperCase()]=[];	
+			event_map_up[keyName.toUpperCase()]=null;	
 		},
 		unKeyDown:function(keyName){
-			event_map_down[keyName.toUpperCase()]=[];
+			event_map_down[keyName.toUpperCase()]=null;
 		},
 		unKeyPress:function(keyName){
-			event_map_press[keyName.toUpperCase()]=[];
+			event_map_press[keyName.toUpperCase()]=null;
 		},
 		bind:function(keyName,callback){
 			event_map[keyName.toUpperCase()]=callback;	
 		},
 		unbind:function(keyName){
-			event_map[keyName.toUpperCase()]=[];
+			event_map[keyName.toUpperCase()]=null;
 		}
 	};
 })(window);
