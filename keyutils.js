@@ -56,14 +56,16 @@
 	var event_map_up   =new Array();
 	var event_map_down =new Array();
 	var event_map_press=new Array();
-	document.onkeyup=function(e){};
+	document.onkeyup=function(e){
+		keyArr = [];
+	};
 	document.onkeypress = function(e) {};
-	document.onkeydown = function(e) {
-		var keyArr = [];//存储按键
+	var keyArr = [];//存储按键
+	document.onkeydown = function(e) {		
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
-		if(isInArray(key_name.toUpperCase(),assist_key)){
+		if(isInArray(key_name.toUpperCase(),assist_key)&&!isInArray(key_name.toUpperCase(),keyArr)){
 			keyArr.push(key_name);
 		}
 		if(!isInArray(key_name.toUpperCase(),keyArr))keyArr.push(key_name);
