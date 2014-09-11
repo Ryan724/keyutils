@@ -43,7 +43,7 @@
 	};
 	//bind事件
 	var event_map      =new Array();
-	//
+
 	var event_map_up   =new Array();
 	var event_map_down =new Array();
 	var event_map_press=new Array();
