@@ -68,6 +68,7 @@
 		if(isInArray(key_name.toUpperCase(),assist_key)&&!isInArray(key_name.toUpperCase(),keyArr)){
 			keyArr.push(key_name);
 		}
+		//--------------存储按键过程存在问题，不按规定输出------------------------
 		if(!isInArray(key_name.toUpperCase(),keyArr))keyArr.push(key_name);
 		console.log(keyArr.join("+"));
 		//判断是否存在以key_name为key的value
