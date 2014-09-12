@@ -56,21 +56,43 @@
 	var event_map_up   =new Array();
 	var event_map_down =new Array();
 	var event_map_press=new Array();
+	/**按键事件场景：
+		1.点击事件完整的是down press up
+		2.点下常摁循环执行 down press 事件，放开是up事件
+		3.点下按键A，不放开点下按键B
+	*/
+	/**
+	onkeypress
+		这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
+	onkeyup
+		这个事件在用户放开任何先前按下的键盘键时发生。
+	onkeydown
+		这个事件在用户按下任何键盘键时发生。
+	**/
+
 	document.onkeyup=function(e){
 		keyArr = [];
+		var c = e.keyCode;
+		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
+		console.log("up   ---"+key_name);
 	};
-	document.onkeypress = function(e) {};
+	document.onkeypress = function(e) {
+		var c = e.keyCode;
+		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
+		console.log("press---"+key_name);
+	};
 	var keyArr = [];//存储按键
 	document.onkeydown = function(e) {		
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
+		console.log("down ---"+key_name);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
 		if(isInArray(key_name.toUpperCase(),assist_key)&&!isInArray(key_name.toUpperCase(),keyArr)){
 			keyArr.push(key_name);
 		}
 		//--------------存储按键过程存在问题，不按规定输出------------------------
 		if(!isInArray(key_name.toUpperCase(),keyArr))keyArr.push(key_name);
-		console.log(keyArr.join("+"));
+		//console.log(keyArr.join("+"));
 		//判断是否存在以key_name为key的value
 		if(event_map_up[key_name]!=undefined){
 			event_map_up[key_name](key_name);
@@ -88,7 +110,6 @@
 			event_map_press[keyName.toUpperCase()]=callback;
 		},
 		unKeyUp:function(keyName){
-			console.log(keyName);
 			event_map_up[keyName.toUpperCase()]=null;	
 		},
 		unKeyDown:function(keyName){
