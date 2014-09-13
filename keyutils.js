@@ -74,7 +74,7 @@
 		//console.log(JSON.stringify(current_keys));
 	};
 	document.onkeypress = function(e) {
-		e.preventDefault();//取消事件的默认动作
+		e.preventDefault();//取消事件的默认动作 
         return false;
 	};
 	
