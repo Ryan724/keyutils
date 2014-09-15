@@ -13,9 +13,13 @@
  * @version 1.1.x
  */
 (function(window) {	
+
 	if(typeof window.KeyUtils != "undefined") {
 	    var _KeyUtils = window.KeyUtils;
 	}
+	var event_map      =new Array();
+	var keyArr=[];//存储按键
+	var current_keys = {};
 	//快捷键组合按键
 	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 	//读取自定义属性data-hotkey
@@ -53,16 +57,20 @@
 		};
 	//读取页面data-hotkey标签
 	var nodeArr =$("[data-hotkey]");
-	//console.log(nodeArr.length);
-	var nodeCode =$(nodeArr[0]).attr("id");
-	var hotDataArr = $(nodeArr[0]).attr("data-hotkey").split(",");
-	event_map[hotDataArr[0].toUpperCase().split("+").sort().join("+")] = function(){
-		//$("#"+nodeCode).
-	};
+	for(var i =0 ; i<nodeArr.length; i++){
+		var nodeCode =$(nodeArr[i]).attr("id");
+		var hotDataArr = $(nodeArr[i]).attr("data-hotkey").split(",");
+		console.log(hotDataArr[0].toUpperCase());
+		currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
+		console.log(nodeCode+"-------"+currentName);
+		event_map[currentName] = function(currentName){
+			$("#"+nodeCode).trigger(hotDataArr[1]);
+		};
+	}
+	
+	console.log(event_map);
 	//bind事件
-	var event_map      =new Array();
-	var keyArr=[];//存储按键
-	var current_keys = {};
+
 	document.onkeyup=function(e){
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
@@ -87,7 +95,7 @@
 		console.log(keyArr);
 		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(event_map[keyArr.sort().join("+")]!=undefined){
-			event_map[keyArr.sort().join("+")](key_name);
+			event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
 		}
 	};
 
