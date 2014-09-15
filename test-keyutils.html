@@ -3,16 +3,19 @@
  <head> 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
   <title>KeyUtils</title> 
+
+</head> 
+<body>
+<button id="btn" data-hotkey="shift+k,click"></button>
+<button id="btn2" data-hotkey="m+k,click"></button>
+</body>
+ <script src = "jquery-2.0.0.js"></script>
   <script src = "keyutils.js"></script>
   <script>
 	// k.keyUp("Q",function(codeName){console.log("1----"+codeName);});
 	// k.keyUp("SHift",function(codeName){console.log("2----"+codeName);});
-	// k.keyUp("SHift+c",function(codeName){console.log("3----"+codeName);});
+	k.bind("SHift+c",function(codeName){console.log("3----"+codeName);});
   </script> 
-</head> 
-<body>
-<button id="btn" data-hotkey="shift+k,click"></button>
-</body>
 </html>
 
 

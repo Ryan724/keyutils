@@ -51,19 +51,16 @@
 			}
 			return false;
 		};
+	//读取页面data-hotkey标签
+	var nodeArr =$("[data-hotkey]");
+	//console.log(nodeArr.length);
+	var nodeCode =$(nodeArr[0]).attr("id");
+	var hotDataArr = $(nodeArr[0]).attr("data-hotkey").split(",");
+	event_map[hotDataArr[0].toUpperCase().split("+").sort().join("+")] = function(){
+		//$("#"+nodeCode).
+	};
 	//bind事件
 	var event_map      =new Array();
-	var event_map_up   =new Array();
-	var event_map_down =new Array();
-	var event_map_press=new Array();
-	/**
-	onkeypress
-		这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
-	onkeyup
-		这个事件在用户放开任何先前按下的键盘键时发生。
-	onkeydown
-		这个事件在用户按下任何键盘键时发生。
-	**/
 	var keyArr=[];//存储按键
 	var current_keys = {};
 	document.onkeyup=function(e){
@@ -71,8 +68,8 @@
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
 		 delete current_keys[key_name];
 		 keyArr=[];
-		//console.log(JSON.stringify(current_keys));
 	};
+	//onkeypress	这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
 	document.onkeypress = function(e) {
 		e.preventDefault();//取消事件的默认动作 
         return false;
@@ -80,50 +77,23 @@
 	
 	//按下一个键，然后存储一次，放开，释放这个按键
 	document.onkeydown = function(e) {
-		var zz =new Object();
-		zz.call(KeyUtils);
-		zz.a=2
-		console.log(KeyUtils.a);
-
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
-		//if(isInArray(key_name.toUpperCase(),assist_key)&&!isInArray(key_name.toUpperCase(),keyArr)){
-			//keyArr.push(key_name);
-		//}
 		if(current_keys[key_name]==null) current_keys[key_name]=key_name;
 		for(var m in current_keys){
 			if(!isInArray(m,keyArr))keyArr.push(m);
 		}
-		console.log(keyArr.join("+"));
-		//判断是否存在以key_name为key的value
-		if(event_map_up[key_name]!=undefined){
-			event_map_up[key_name](key_name);
+		console.log(keyArr);
+		//判断是否存在以keyArr.sort().join("+")为key的value
+		if(event_map[keyArr.sort().join("+")]!=undefined){
+			event_map[keyArr.sort().join("+")](key_name);
 		}
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={
-		a:"a",
-		keyUp:function(keyName,callback){
-			event_map_up[keyName.toUpperCase()]=callback;	
-		},
-		keyDown:function(keyName,callback){
-			event_map_down[keyName.toUpperCase()]=callback;
-		},	
-		keyPress:function(keyName,callback){
-			event_map_press[keyName.toUpperCase()]=callback;
-		},
-		unKeyUp:function(keyName){
-			event_map_up[keyName.toUpperCase()]=null;	
-		},
-		unKeyDown:function(keyName){
-			event_map_down[keyName.toUpperCase()]=null;
-		},
-		unKeyPress:function(keyName){
-			event_map_press[keyName.toUpperCase()]=null;
-		},
 		bind:function(keyName,callback){
-			event_map[keyName.toUpperCase()]=callback;	
+			event_map[keyName.toUpperCase().split("+").sort().join("+")]=callback;	
 		},
 		unbind:function(keyName){
 			event_map[keyName.toUpperCase()]=null;
