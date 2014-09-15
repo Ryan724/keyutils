@@ -79,7 +79,12 @@
 	};
 	
 	//按下一个键，然后存储一次，放开，释放这个按键
-	document.onkeydown = function(e) {		
+	document.onkeydown = function(e) {
+		var zz =new Object();
+		zz.call(KeyUtils);
+		zz.a=2
+		console.log(KeyUtils.a);
+
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
@@ -98,6 +103,7 @@
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={
+		a:"a",
 		keyUp:function(keyName,callback){
 			event_map_up[keyName.toUpperCase()]=callback;	
 		},
