@@ -58,8 +58,9 @@
 	//读取页面data-hotkey标签
 	var nodeArr =$("[data-hotkey]");
 	for(var i =0 ; i<nodeArr.length; i++){
-		var nodeCode =$(nodeArr[i]).attr("id");
-		var hotDataArr = $(nodeArr[i]).attr("data-hotkey").split(",");
+		var obj= nodeArr[0];
+		var nodeCode =$(obj).attr("id");
+		var hotDataArr = $(obj).attr("data-hotkey").split(",");
 		console.log(hotDataArr[0].toUpperCase());
 		currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
 		console.log(nodeCode+"-------"+currentName);
@@ -93,10 +94,18 @@
 			if(!isInArray(m,keyArr))keyArr.push(m);
 		}
 		console.log(keyArr);
+		console.log("--------");
 		//判断是否存在以keyArr.sort().join("+")为key的value
-		if(event_map[keyArr.sort().join("+")]!=undefined){
+		if(keyArr.length===1){
+			if(event_map[keyArr[0]]!=undefined){
+			event_map[keyArr[0]](keyArr[0]);
+			}
+		}else{
+			if(event_map[keyArr.sort().join("+")]!=undefined){
 			event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
 		}
+		}
+		
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={
