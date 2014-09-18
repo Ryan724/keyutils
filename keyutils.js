@@ -20,7 +20,7 @@
 	var event_map      =new Array();
 	var keyArr=[];//存储按键
 	var current_keys = {};
-	//快捷键组合按键--这个暂时没有用到！要考虑k,与组合k按键的调用情况
+	//快捷键组合按键--这个暂时没有用到！要考虑k,与组合k按键的调用情况，需要好好想
 	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 	//读取自定义属性data-hotkey
 	var  hotkeyArr = new Array;
