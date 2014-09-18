@@ -94,10 +94,12 @@
 			if(!isInArray(m,keyArr))keyArr.push(m);
 		}
 		console.log(keyArr);
-		console.log("--------");
+		
 		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(keyArr.length===1){
+
 			if(event_map[keyArr[0]]!=undefined){
+				console.log("----1----");
 			event_map[keyArr[0]](keyArr[0]);
 			}
 		}else{
