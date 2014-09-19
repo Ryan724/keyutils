@@ -58,15 +58,17 @@
 	//读取页面data-hotkey标签
 	var nodeArr =$("[data-hotkey]");
 	for(var i =0 ; i<nodeArr.length; i++){
-		var obj= nodeArr[0];
+		var obj= nodeArr[i];
 		var nodeCode =$(obj).attr("id");
+		console.log(i+"       "+nodeCode);
 		var hotDataArr = $(obj).attr("data-hotkey").split(",");
-		console.log(hotDataArr[0].toUpperCase());
+		//console.log(hotDataArr[0].toUpperCase());
 		currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
-		console.log(nodeCode+"-------"+currentName);
+		//console.log(nodeCode+"-------"+currentName);
 		event_map[currentName] = function(currentName){
 			$("#"+nodeCode).trigger(hotDataArr[1]);
 		};
+		console.log(event_map);
 	}
 	
 	console.log(event_map);
