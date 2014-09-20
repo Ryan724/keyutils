@@ -57,19 +57,28 @@
 		};
 	//读取页面data-hotkey标签
 	var nodeArr =$("[data-hotkey]");
-	for(var i =0 ; i<nodeArr.length; i++){
-		var obj= nodeArr[i];
-		var nodeCode =$(obj).attr("id");
-		console.log(i+"       "+nodeCode);
-		var hotDataArr = $(obj).attr("data-hotkey").split(",");
-		//console.log(hotDataArr[0].toUpperCase());
-		currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
-		//console.log(nodeCode+"-------"+currentName);
-		event_map[currentName] = function(currentName){
-			$("#"+nodeCode).trigger(hotDataArr[1]);
-		};
-		console.log(event_map);
+	//存id ，和
+	var map =[];
+	for(var i = 0 ; i<nodeArr.length;i++){
+		var hotDataArr = $(nodeArr[i]).attr("data-hotkey").split(",");
+		if(hotDataArr[0].toUpperCase().indexOf("+")>0){
+			map[hotDataArr[0].toUpperCase().split("+").sort().join("+")] =[$(nodeArr[i]).attr("id"),hotDataArr[1]];
+		}
+		
 	}
+	console.log(map);
+	// for(var node in nodeArr){
+	// 	var nodeCode =$(node).attr("id");
+	// 	console.log("       "+nodeArr);
+	// 	var hotDataArr = $(node).attr("data-hotkey").split(",");
+	// 	//console.log(hotDataArr[0].toUpperCase());
+	// 	currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
+	// 	//console.log(nodeCode+"-------"+currentName);
+	// 	event_map[currentName] = function(currentName){
+	// 		$("#"+nodeCode).trigger(hotDataArr[1]);
+	// 	};
+	// 	console.log(event_map);
+	// }
 	
 	console.log(event_map);
 	//bind事件
@@ -78,7 +87,8 @@
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
 		 delete current_keys[key_name];
-		 keyArr=[];
+		 keyArr=new Array();
+		 console.log(keyArr);
 	};
 	//onkeypress	这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
 	document.onkeypress = function(e) {
@@ -90,22 +100,27 @@
 	document.onkeydown = function(e) {
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
+		console.log(keyArr+"  "+key_name);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
 		if(current_keys[key_name]==null) current_keys[key_name]=key_name;
 		for(var m in current_keys){
 			if(!isInArray(m,keyArr))keyArr.push(m);
 		}
 		console.log(keyArr);
-		
 		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(keyArr.length===1){
 			if(event_map[keyArr[0]]!=undefined){
 				event_map[keyArr[0]](keyArr[0]);
 			}
 		}else{
+			if(map[keyArr.sort().join("+")]!=undefined){
+				var zz =map[keyArr.sort().join("+")];
+				$("#"+zz[0]).trigger(zz[1]);
+				keyArr=[];
+			}
 			if(event_map[keyArr.sort().join("+")]!=undefined){
-			event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
-		}
+				event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
+			}
 		}
 		
 	};
