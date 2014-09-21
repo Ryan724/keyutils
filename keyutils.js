@@ -100,11 +100,15 @@
 	document.onkeydown = function(e) {
 		var c = e.keyCode;
 		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
-		console.log(keyArr+"  "+key_name);
+		console.log(keyArr);
+		console.log("||||"+key_name);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
 		if(current_keys[key_name]==null) current_keys[key_name]=key_name;
+		console.log(current_keys);
 		for(var m in current_keys){
 			if(!isInArray(m,keyArr))keyArr.push(m);
+			console.log("-------------------------");
+			console.log(keyArr);
 		}
 		console.log(keyArr);
 		//判断是否存在以keyArr.sort().join("+")为key的value
@@ -115,8 +119,8 @@
 		}else{
 			if(map[keyArr.sort().join("+")]!=undefined){
 				var zz =map[keyArr.sort().join("+")];
+				current_keys=[];
 				$("#"+zz[0]).trigger(zz[1]);
-				keyArr=[];
 			}
 			if(event_map[keyArr.sort().join("+")]!=undefined){
 				event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
