@@ -65,7 +65,7 @@
 		//console.log(hotDataArr[0].toUpperCase());
 		currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
 		//console.log(nodeCode+"-------"+currentName);
-		event_map[currentName] = function(currentName){
+		event_map[currentName] =function(){
 			$("#"+nodeCode).trigger(hotDataArr[1]);
 		};
 		console.log(event_map);
