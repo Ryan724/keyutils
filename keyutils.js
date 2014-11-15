@@ -9,6 +9,11 @@
  *			<button id="btn" data-hotkey="shift+k,click"></button>
  *          当快捷键按下时，keyButils会自动触发其绑定事件的执行函数
  *--------------------------------------------------------------------
+ *  架构: 1. 给按键起名字
+ *	  2. 编写一个判断工具,判断数组钟师傅存在某元素
+ *	  3. 寻找页面中data-hotkey的元素属性
+ *	  4. 定义keyup,keydown,keypress 三中事件
+ * 	  5. 申明对象,将对象抛出
  * @author Ryan724
  * @version 1.1.0
  */
@@ -50,7 +55,7 @@
 	  var i = arr.length; 
 	  while (i--) { 
 	    if (arr[i] === str) { 
-					 return true; 
+			   	return true; 
 				} 
 			}
 			return false;
