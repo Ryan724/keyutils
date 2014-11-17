@@ -22,6 +22,8 @@
 	if(typeof window.KeyUtils != "undefined") {
 	    var _KeyUtils = window.KeyUtils;
 	}
+	//存储按键事件 key：名称  value:执行函数
+	var event_map   =new Array();
 	//1. 传入key的code，返回确定的字符
 	var getKeyName =function(code){
 		var key_names = {
@@ -56,64 +58,61 @@
 		else {return cont_name[code]};
 	};
 	//按键名称规范化
-	var nameStand=function(name){
-		return name.toUpperCase().split("+").sort().join("+");
+	var nameStand=function(data){
+		if(data.constructor==String){
+			return data.toUpperCase().split("+").sort().join("+");
+		}else if(data instanceof  Array){
+			$(data).each(function(i,ele){
+				data[i]=ele.toUpperCase();
+			});
+			return data.sort().join("+");
+		}
+	
 	}
 	//寻找页面中data-hotkey的元素属性 ,给他们绑定到对应的函数上
 	var labelBindFun=function(){
 		var nodeArr =$("[data-hotkey]");
 		var map =[];//key:存储按键名称  value: 0---id  1---事件类型，如：click,change
-		nodeArr.each(function(i,element){
+		$(nodeArr).each(function(i,element){
 			var hotDataArr = $(element).attr("data-hotkey").split(",");
-			map[nameStand(hotDataArr[0])] =[$(element).attr("id"),hotDataArr[1]];
+			var nodeCode =$(element).attr("id");
+			map[nameStand(hotDataArr[0])] =[nodeCode,hotDataArr[1]];
+			event_map[nameStand(hotDataArr[0])] = function(currentName){
+				return function(){
+					$("#"+nodeCode).trigger(hotDataArr[1]);	
+				}
+			};
 		});
-
 	}
-	
-	var event_map   =new Array();
-	var keyArr=[];//存储按键
-	var current_keys = {};
+
+
 	//快捷键组合按键
 	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
-	//读取自定义属性data-hotkey
-	var  hotkeyArr = new Array;
-	//$('[data-hotkey]').each(function(i, element) {hotkeyArr.push(element);});
-	//存id ，和j
-	
 
-	// for(var node in nodeArr){
-	// 	var nodeCode =$(node).attr("id");
-	// 	console.log("       "+nodeArr);
-	// 	var hotDataArr = $(node).attr("data-hotkey").split(",");
-	// 	//console.log(hotDataArr[0].toUpperCase());
-	// 	currentName =hotDataArr[0].toUpperCase().split("+").sort().join("+");
-	// 	//console.log(nodeCode+"-------"+currentName);
-	// 	event_map[currentName] = function(currentName){
-	// 		$("#"+nodeCode).trigger(hotDataArr[1]);
-	// 	};
-	// 	console.log(event_map);
-	// }
-	
-	//console.log(event_map);
-	//bind事件
-
+	/**
+	*抓取按键事件，进行判断：
+	* 1.  按键按下，抬起为一个按键完整操作，
+	* 2.  组合按键需同时按下，才回生效
+	* 3.  按键抬起时，从当前按键中删除该按键
+	**/
+	var current_keys = [];//存储当前按键
+	var keyArr=[];//存储按键
 	document.onkeyup=function(e){
 		var key_name =getKeyName(e.keyCode);
 		 delete current_keys[key_name];
 		 keyArr=new Array();
-		// console.log(keyArr);
+		 console.log(keyArr);
 	};
-	//onkeypress	这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
 	document.onkeypress = function(e) {
 		e.preventDefault();//取消事件的默认动作 
         return false;
 	};
-	
-	//按下一个键，然后存储一次，放开，释放这个按键
 	document.onkeydown = function(e) {
 		var key_name =getKeyName(e.keyCode);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
-		if(current_keys[key_name]==null) current_keys[key_name]=key_name;
+		if(current_keys[key_name]==null){
+			current_keys[key_name]=key_name;
+		};
 		for(var m in current_keys){
 			if(!keyArr.hasOwnProperty(m)){
 				keyArr.push(m);
@@ -122,22 +121,22 @@
 		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(keyArr.length===1){
 			if(event_map[keyArr[0]]!=undefined){
+				//调用函数
 				event_map[keyArr[0]](keyArr[0]);
 			}
 		}else{
-			if(map[keyArr.sort().join("+")]!=undefined){
-				var zz =map[keyArr.sort().join("+")];
-				current_keys=[];
-				$("#"+zz[0]).trigger(zz[1]);
-			}
-			if(event_map[keyArr.sort().join("+")]!=undefined){
-				event_map[keyArr.sort().join("+")](keyArr.sort().join("+"));
+			if(event_map[nameStand(keyArr)]!=undefined){
+				console.log(event_map[nameStand(keyArr)]);
+				event_map[nameStand(keyArr)](nameStand(keyArr));
 			}
 		}
 		
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={
+		init:function(){
+			labelBindFun();
+		},
 		bind:function(keyName,callback){
 			event_map[keyName.toUpperCase().split("+").sort().join("+")]=callback;	
 		},
@@ -145,4 +144,5 @@
 			delete event_map[keyName.toUpperCase()];
 		}
 	};
+	k.init();
 })(window);
