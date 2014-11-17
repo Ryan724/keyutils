@@ -69,6 +69,10 @@
 		}
 	
 	}
+	//
+	var contains = function(item,arr){ 
+	  return RegExp(item).test(arr); 
+	} 
 	//寻找页面中data-hotkey的元素属性 ,给他们绑定到对应的函数上
 	var labelBindFun=function(){
 		var nodeArr =$("[data-hotkey]");
@@ -78,16 +82,15 @@
 			var nodeCode =$(element).attr("id");
 			map[nameStand(hotDataArr[0])] =[nodeCode,hotDataArr[1]];
 			event_map[nameStand(hotDataArr[0])] = function(currentName){
-				return function(){
-					$("#"+nodeCode).trigger(hotDataArr[1]);	
-				}
+				// return eval(function(){
+					return $("#"+nodeCode).trigger(hotDataArr[1]);	
+				// });
 			};
 		});
 	}
 
 
-	//快捷键组合按键
-	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
+	//快捷键组合按键 var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 
 	/**
 	*抓取按键事件，进行判断：
@@ -100,8 +103,7 @@
 	document.onkeyup=function(e){
 		var key_name =getKeyName(e.keyCode);
 		 delete current_keys[key_name];
-		 keyArr=new Array();
-		 console.log(keyArr);
+		 keyArr=[];
 	};
 	document.onkeypress = function(e) {
 		e.preventDefault();//取消事件的默认动作 
@@ -114,7 +116,7 @@
 			current_keys[key_name]=key_name;
 		};
 		for(var m in current_keys){
-			if(!keyArr.hasOwnProperty(m)){
+			if(!contains(m,keyArr)){
 				keyArr.push(m);
 			}
 		}
@@ -126,11 +128,9 @@
 			}
 		}else{
 			if(event_map[nameStand(keyArr)]!=undefined){
-				console.log(event_map[nameStand(keyArr)]);
 				event_map[nameStand(keyArr)](nameStand(keyArr));
 			}
 		}
-		
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={

@@ -10,9 +10,11 @@
 <button id="btn2" data-hotkey="shift+m,click" name="">测试btn2</button>
 <pre>	
 	<h3>绑定的函数</h3>
-	$(".btn2").click(function(codeName){
-  		console.log("btn2----"+codeName);
+	shift+k,click
+	$(".btn").click(function(codeName){
+  		console.log("btn----"+codeName);
   	});
+  	shift+m,click
   	$(".btn2").click(function(codeName){
   		console.log("btn2----"+codeName);
   	});
@@ -20,7 +22,7 @@
 		console.log("3----"+codeName);
 	});
 	k.bind("m",function(m){
-			alert(m);
+			console.log(m);
 	});
 </pre>
 </body>
@@ -37,7 +39,7 @@
 		console.log("3----"+codeName);
 	});
 	k.bind("m",function(m){
-			alert(m);
+			console.log(m);
 	});
   </script> 
 </html>
