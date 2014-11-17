@@ -17,8 +17,8 @@ k.keyup("shift",function(){
 ```html
 <button id="btn" data-hotkey="shift+k,click"></button>
 ```
-	js code:
 ```javascript
+js code:
 $("#btn").click(function(){
      //your event  code.....
 });
