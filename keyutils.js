@@ -10,8 +10,8 @@
  *          当快捷键按下时，keyButils会自动触发其绑定事件的执行函数
  *--------------------------------------------------------------------
  *  架构: 1. 给按键起名字
- *	  2. 编写一个判断工具,判断数组钟师傅存在某元素
- *	  3. 寻找页面中data-hotkey的元素属性
+ *	  2. 编写一个判断工具,判断数组钟师傅存在某元素 使用这个 hasOwnProperty
+ *	  3. 寻找页面中data-hotkey的元素属性 
  *	  4. 定义keyup,keydown,keypress 三中事件
  * 	  5. 申明对象,将对象抛出
  * @author Ryan724
@@ -22,7 +22,7 @@
 	if(typeof window.KeyUtils != "undefined") {
 	    var _KeyUtils = window.KeyUtils;
 	}
-	//1. 传入key的code，返回确定的字符
+	//1. 传入key的code，返回确定的字符----
 	var getKeyName =function(code){
 		var key_names = {
 			8: 'BACKSPACE',9: 'TAB',13: 'ENTER',16: 'SHIFT',17: 'CTRL',18: 'ALT',19: 'PAUSE',
@@ -55,28 +55,17 @@
 		else if(code>111&&code<124){return fn_name[code];}
 		else {return cont_name[code]};
 	};
-	var event_map      =new Array();
+	//寻找页面中data-hotkey的元素属性 
+	var nodeArr =$("[data-hotkey]");
+	var event_map   =new Array();
 	var keyArr=[];//存储按键
 	var current_keys = {};
-	//快捷键组合按键--这个暂时没有用到！要考虑k,与组合k按键的调用情况，需要好好想
+	//快捷键组合按键
 	var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 	//读取自定义属性data-hotkey
 	var  hotkeyArr = new Array;
 	//$('[data-hotkey]').each(function(i, element) {hotkeyArr.push(element);});
-	
-	//判断数组当中是否存在某元素
-	var isInArray=function(str,arr){
-	  var i = arr.length; 
-	  while (i--) { 
-	    if (arr[i] === str) { 
-			   	return true; 
-				} 
-			}
-			return false;
-		};
-	//读取页面data-hotkey标签
-	var nodeArr =$("[data-hotkey]");
-	//存id ，和
+	//存id ，和j
 	var map =[];
 	for(var i = 0 ; i<nodeArr.length;i++){
 		var hotDataArr = $(nodeArr[i]).attr("data-hotkey").split(",");
@@ -84,7 +73,6 @@
 			map[hotDataArr[0].toUpperCase().split("+").sort().join("+")] =[$(nodeArr[i]).attr("id"),hotDataArr[1]];
 		}
 	}
-	console.log(map);
 	// for(var node in nodeArr){
 	// 	var nodeCode =$(node).attr("id");
 	// 	console.log("       "+nodeArr);
@@ -102,8 +90,7 @@
 	//bind事件
 
 	document.onkeyup=function(e){
-		var c = e.keyCode;
-		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
+		var key_name =getKeyName(e.keyCode);
 		 delete current_keys[key_name];
 		 keyArr=new Array();
 		 console.log(keyArr);
@@ -116,19 +103,14 @@
 	
 	//按下一个键，然后存储一次，放开，释放这个按键
 	document.onkeydown = function(e) {
-		var c = e.keyCode;
-		var key_name = key_names[c] || fn_name(c) || num_name(c) || String.fromCharCode(c);
-		console.log(keyArr);
-		console.log("||||"+key_name);
+		var key_name =getKeyName(e.keyCode);
 		//如果key_name是assist_key中的任一个时，加入到keyArr当中
 		if(current_keys[key_name]==null) current_keys[key_name]=key_name;
-		console.log(current_keys);
 		for(var m in current_keys){
-			if(!isInArray(m,keyArr))keyArr.push(m);
-			console.log("-------------------------");
-			console.log(keyArr);
+			if(!keyArr.hasOwnProperty(m)){
+				keyArr.push(m);
+			}
 		}
-		console.log(keyArr);
 		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(keyArr.length===1){
 			if(event_map[keyArr[0]]!=undefined){
@@ -152,7 +134,7 @@
 			event_map[keyName.toUpperCase().split("+").sort().join("+")]=callback;	
 		},
 		unbind:function(keyName){
-			event_map[keyName.toUpperCase()]=null;
+			delete event_map[keyName.toUpperCase()];
 		}
 	};
 })(window);
