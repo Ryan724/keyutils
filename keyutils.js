@@ -2,7 +2,7 @@
  * 依赖于jquery-1.7.0.js
  * 使用方法：
  *		1. 给按键绑定特定函数，例如：
- *				k.keyup("shift",function(){
+ *				k.bind("shift",function(){
  *					//your code .....
  *				});
  *		2. 在html页面元素中使用data-hotkey属性，并为该元素定义执行函数.例如：
@@ -22,7 +22,7 @@
 	if(typeof window.KeyUtils != "undefined") {
 	    var _KeyUtils = window.KeyUtils;
 	}
-	//1. 传入key的code，返回确定的字符----
+	//1. 传入key的code，返回确定的字符
 	var getKeyName =function(code){
 		var key_names = {
 			8: 'BACKSPACE',9: 'TAB',13: 'ENTER',16: 'SHIFT',17: 'CTRL',18: 'ALT',19: 'PAUSE',
@@ -55,8 +55,21 @@
 		else if(code>111&&code<124){return fn_name[code];}
 		else {return cont_name[code]};
 	};
-	//寻找页面中data-hotkey的元素属性 
-	var nodeArr =$("[data-hotkey]");
+	//按键名称规范化
+	var nameStand=function(name){
+		return name.toUpperCase().split("+").sort().join("+");
+	}
+	//寻找页面中data-hotkey的元素属性 ,给他们绑定到对应的函数上
+	var labelBindFun=function(){
+		var nodeArr =$("[data-hotkey]");
+		var map =[];//key:存储按键名称  value: 0---id  1---事件类型，如：click,change
+		nodeArr.each(function(i,element){
+			var hotDataArr = $(element).attr("data-hotkey").split(",");
+			map[nameStand(hotDataArr[0])] =[$(element).attr("id"),hotDataArr[1]];
+		});
+
+	}
+	
 	var event_map   =new Array();
 	var keyArr=[];//存储按键
 	var current_keys = {};
@@ -66,13 +79,8 @@
 	var  hotkeyArr = new Array;
 	//$('[data-hotkey]').each(function(i, element) {hotkeyArr.push(element);});
 	//存id ，和j
-	var map =[];
-	for(var i = 0 ; i<nodeArr.length;i++){
-		var hotDataArr = $(nodeArr[i]).attr("data-hotkey").split(",");
-		if(hotDataArr[0].toUpperCase().indexOf("+")>0){
-			map[hotDataArr[0].toUpperCase().split("+").sort().join("+")] =[$(nodeArr[i]).attr("id"),hotDataArr[1]];
-		}
-	}
+	
+
 	// for(var node in nodeArr){
 	// 	var nodeCode =$(node).attr("id");
 	// 	console.log("       "+nodeArr);
@@ -86,14 +94,14 @@
 	// 	console.log(event_map);
 	// }
 	
-	console.log(event_map);
+	//console.log(event_map);
 	//bind事件
 
 	document.onkeyup=function(e){
 		var key_name =getKeyName(e.keyCode);
 		 delete current_keys[key_name];
 		 keyArr=new Array();
-		 console.log(keyArr);
+		// console.log(keyArr);
 	};
 	//onkeypress	这个事件在用户按下并放开任何字母数字键时发生。系统按钮（例如，箭头键和功能键）无法得到识别。
 	document.onkeypress = function(e) {
