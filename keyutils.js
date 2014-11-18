@@ -8,12 +8,6 @@
  *		2. 在html页面元素中使用data-hotkey属性，并为该元素定义执行函数.例如：
  *			<button id="btn" data-hotkey="shift+k,click"></button>
  *          当快捷键按下时，keyButils会自动触发其绑定事件的执行函数
- *--------------------------------------------------------------------
- *  架构: 1. 给按键起名字
- *	  2. 编写一个判断工具,判断数组钟师傅存在某元素 使用这个 hasOwnProperty
- *	  3. 寻找页面中data-hotkey的元素属性 
- *	  4. 定义keyup,keydown,keypress 三中事件
- * 	  5. 申明对象,将对象抛出
  * @author Ryan724
  * @version 1.1.0
  */
@@ -120,7 +114,6 @@
 				keyArr.push(m);
 			}
 		}
-		//判断是否存在以keyArr.sort().join("+")为key的value
 		if(keyArr.length===1){
 			if(event_map[keyArr[0]]!=undefined){
 				//调用函数
