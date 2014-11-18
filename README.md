@@ -8,7 +8,7 @@ JavaScript针对键盘事件监听处理的工具库
   使用方法：
 *  给按键绑定特定函数，例如：
 ```javascript
-k.keyup("shift",function(){
+k.bind("shift",function(){
 				//your code .....
 });
 ```
