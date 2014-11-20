@@ -12,7 +12,6 @@
  * @version 1.1.0
  */
 (function(window) {	
-
 	if(typeof window.KeyUtils != "undefined") {
 	    var _KeyUtils = window.KeyUtils;
 	}
