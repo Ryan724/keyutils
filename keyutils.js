@@ -126,15 +126,12 @@
 	};
 
 	var KeyUtils = window.KeyUtils = window.k ={
-		init:function(){
 			labelBindFun();
-		},
-		bind:function(keyName,callback){
+	};
+	KeyUtils.bind=function(keyName,callback){
 			event_map[keyName.toUpperCase().split("+").sort().join("+")]=callback;	
 		},
-		unbind:function(keyName){
+	KeyUtils.unbind=function(keyName){
 			delete event_map[keyName.toUpperCase()];
 		}
-	};
-	k.init();
 })(window);
