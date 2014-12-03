@@ -81,8 +81,6 @@
 			};
 		});
 	}
-
-
 	//快捷键组合按键 var assist_key=["SHIFT","ALT","CTRL","SPACE"];
 
 	/**
