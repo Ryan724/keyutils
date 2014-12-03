@@ -62,7 +62,7 @@
 		}
 	
 	}
-	//
+
 	var contains = function(item,arr){ 
 	  return RegExp(item).test(arr); 
 	} 
