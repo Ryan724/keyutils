@@ -20,7 +20,7 @@ k.bind("shift",function(){
 ```javascript
 js code:
 $("#btn").click(function(){
-     //your event  code.....
+    //your event  code.....
 });
 ``` 		  
 ## Questions?
