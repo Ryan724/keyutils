@@ -6,6 +6,7 @@ JavaScript针对键盘事件监听处理的工具库
  keyUtils 是用js对键盘事件的监听
   依赖于jquery-2.0.0.js
   使用方法：
+
 *  给按键绑定特定函数，例如：
 ```javascript
 k.bind("shift",function(){
@@ -20,7 +21,7 @@ k.bind("shift",function(){
 ```javascript
 js code:
 $("#btn").click(function(){
-     //your event  code.....
+    //your event  code.....
 });
 ``` 		  
 ## Questions?
