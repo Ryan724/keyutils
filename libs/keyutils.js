@@ -67,7 +67,7 @@
 	  return RegExp(item).test(arr); 
 	} 
 	//寻找页面中data-hotkey的元素属性 ,给他们绑定到对应的函数上
-	var labelBindFun=function(){
+	var initialize=function(){
 		var nodeArr =$("[data-hotkey]");
 		var map =[];//key:存储按键名称  value: 0---id  1---事件类型，如：click,change
 		$(nodeArr).each(function(i,element){
@@ -123,7 +123,7 @@
 	};
 
 	var KeyUtils = window.KeyUtils = window.k =function(){
-			labelBindFun();
+			initialize();
 	};
 	KeyUtils.bind=function(keyName,callback){
 			event_map[keyName.toUpperCase().split("+").sort().join("+")]=callback;	

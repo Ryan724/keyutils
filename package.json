@@ -1,8 +1,12 @@
 {
-  "name": "demo",
-  "file": "zepto",
+  "name": "keyutils",
+  "files": ["keyutils.js","keyutils.min.js"],
+  "author":{
+			"name":"Ryan724",
+			"email":"zhengpj3@gamil.com"
+			},
   "version": "0.1.0",
-  "description": "demo",
+  "description": "JavaScript针对键盘事件监听处理的工具库",
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.1",
