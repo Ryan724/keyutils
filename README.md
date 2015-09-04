@@ -19,7 +19,7 @@ k.bind("shift",function(){
 <button id="btn" data-hotkey="shift+k,click"></button>
 ```
 ```javascript
-js code:
+js code: 
 $("#btn").click(function(){
     //your event  code.....
 });
