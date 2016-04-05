@@ -7,17 +7,9 @@
 			},
   "version": "0.1.0",
   "description": "JavaScript针对键盘事件监听处理的工具库",
-  "license": "MIT",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.3",
-    "grunt-contrib-uglify": "~0.2.1",
-    "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-strip": "~0.2.1"
   },
   "dependencies": {
-    "express": "3.x"
+    "wolfy87-eventemitter":"^4.3.0"
   }
 }
