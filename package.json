@@ -10,6 +10,5 @@
   "devDependencies": {
   },
   "dependencies": {
-    "wolfy87-eventemitter":"^4.3.0"
   }
 }
