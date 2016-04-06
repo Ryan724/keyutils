@@ -3,11 +3,18 @@ var Events = require("./Events");
 function KeyUtils(){
 	this.events = Events;
 	this.currentKeys = [];//存储当前按键
+	return this.initialize();
 }
 KeyUtils.prototype={
 	initialize:function(){
-		document.addListener("keyup",this.doKeyUp);
-		document.addListener("keydown",this.doKeyUp);
+		var self =this;
+		document.addEventListener("keyup",function(){
+			self.doKeyUp.apply(self,arguments)
+		});
+		document.addEventListener("keydown",function(){
+			self.doKeyDown.apply(self,arguments)
+		});
+		return this;
 	},
 
 	doKeyUp:function(e){
@@ -24,11 +31,11 @@ KeyUtils.prototype={
 	},
 
 	bind:function (eventName,callback) {
-		this.events.on(eventName,callback);
+		this.events.on(this.bulidKeyName(eventName),callback);
 	},
 
 	unbind:function(eventName){
-		this.events.off(eventName)
+		this.events.off(this.bulidKeyName(eventName))
 	},
 
 	removeUpkey:function(keyName){
@@ -40,14 +47,14 @@ KeyUtils.prototype={
 	getCurrentKeys:function(){
 		return this._currentKeys||(this._currentKeys=[])
 	},
-	
+
 	bulidKeyName:function(name){
 		if(typeof name === "string"){
 			return name.toUpperCase().split("+").sort().join("+");
 		}
 		if(name instanceof  Array){
 			for(var i=0;i<name.length;i++) name[i]=name[i].toUpperCase();
-			return data.sort().join("+");
+			return name.sort().join("+");
 		}
 	}
 }

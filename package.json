@@ -5,9 +5,14 @@
 			"name":"Ryan724",
 			"email":"zhengpj3@gamil.com"
 			},
+  "scripts":{
+    "start": "webpack"
+  },
   "version": "0.1.0",
   "description": "JavaScript针对键盘事件监听处理的工具库",
   "devDependencies": {
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
   }
